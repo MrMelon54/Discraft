@@ -89,7 +89,7 @@ async def kill(ctx, name: str):
 	membi=''.join(memb)
 	#print(membi)
 	if namefi in membi:
-		final=name, " has been killed by", ctx.message.author
+		final=name, " has been killed by ", str(ctx.message.author)
 		await ctx.send(''.join(final))
 	else:
 		await ctx.send('Player not found')
