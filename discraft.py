@@ -2,11 +2,9 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import has_permissions, MissingPermissions
 
-bot = commands.Bot(command_prefix='/', description='A bot that responds to Minecraft commands')
+bot = commands.Bot(command_prefix='/', description='A bot that responds to Minecraft commands.')
 client = discord.Client()
-conf=open('config.txt','r')
-token=conf.read()
-print(token)
+
 def ismember(name: str):
 	memb = (set(map(str, bot.get_all_members())))
 	namef= name, "#"
@@ -27,28 +25,12 @@ async def on_ready():
 	print(bot.user.id)
 	print('------')
 
-
-@bot.command()
-async def add(ctx, a: int, b: int):
-	await ctx.send(a+b)
-
-@bot.command()
-async def multiply(ctx, a: int, b: int):
-	await ctx.send(a*b)
-
-@bot.command()
-async def greet(ctx):
-	await ctx.send("Morning")
-
-"""@bot.command()
-async def cat(ctx):
-	await ctx.send("https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif")"""
 	
 @bot.command(pass_context = True)
 @commands.has_any_role("Despotizmus")
 async def kick(ctx, userName: discord.Member):
 	#if ctx.message.author.server_permissions.administrator:
-	await ctx.send(f'The Kicking Hammer Has Awoken! {userName.name} Has Been Banished')
+	await ctx.send(f'{userName.name} has been kicked!')
 	await ctx.guild.kick(userName)
 	#else:
 	#await ctx.send(f'No permission!')
@@ -58,10 +40,10 @@ async def kick(ctx, userName: discord.Member):
 @commands.has_any_role("Member")
 async def kick(ctx, userName: discord.Member):
 	#if ctx.message.author.server_permissions.administrator:
-	#await ctx.send(f'The Kicking Hammer Has Awoken! {userName.name} Has Been Banished')
+	#await ctx.send(f' {userName.name} has been kicked!')
 	#await ctx.guild.kick(userName)
 	#else:
-	await ctx.send(f'No permission!')'''
+	await ctx.send(f'No permission!')
 
 @bot.command(pass_context=True)
 @commands.has_any_role("Despotizmus")
@@ -70,7 +52,7 @@ async def user_info(ctx, user: discord.Member):
     await ctx.send(f'The ID of the user is {user.id}')
     await ctx.send(f'The status of the user is {user.status}')
     await ctx.send(f'The role of the user is {user.top_role}')
-    await ctx.send(f'The user joined at {user.joined_at}')
+    await ctx.send(f'The user joined at {user.joined_at}')'''
 
 	
 	
@@ -81,11 +63,11 @@ async def ban (ctx, member:discord.User=None, reason =None):
         await ctx.channel.send("You cannot ban yourself")
         return
     if reason == None:
-        reason = "For no reason"
+        reason = "cuz why not?"
     message = f"You have been banned from {ctx.guild.name} for {reason}"
     await member.send(message)
     # await ctx.guild.ban(member)
-    await ctx.channel.send(f"{member} is banned!")
+    await ctx.channel.send(f"{member} has been banned!")
     
 @kick.error
 async def kick_error(error, ctx):
@@ -96,6 +78,7 @@ async def kick_error(error, ctx):
 @bot.command()
 async def ismembere(ctx, name: str):
 	print(ismember(name))
+	
 @bot.command()
 async def kill(ctx, name: str):
 	memb = (set(map(str, bot.get_all_members())))
@@ -106,9 +89,10 @@ async def kill(ctx, name: str):
 	membi=''.join(memb)
 	#print(membi)
 	if namefi in membi:
-		final=name, " has been killed"
+		final=name, " has been killed by", ctx.message.author
 		await ctx.send(''.join(final))
 	else:
 		await ctx.send('Player not found')
 
-bot.run(token)
+bot.run(TOKEN)
+
