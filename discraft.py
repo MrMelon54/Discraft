@@ -5,6 +5,8 @@ from discord.ext.commands import has_permissions, MissingPermissions
 bot = commands.Bot(command_prefix='/', description='A bot that responds to Minecraft commands.')
 client = discord.Client()
 
+TOKEN = 'Insert token here'
+
 def ismember(name: str):
 	memb = (set(map(str, bot.get_all_members())))
 	namef= name, "#"
