@@ -5,9 +5,6 @@ from discord.ext.commands import has_permissions, MissingPermissions
 bot = commands.Bot(command_prefix='/', description='A bot that responds to Minecraft commands.')
 client = discord.Client()
 
-with open('.token','r') as f:
-	TOKEN = f.readline().replace('\n','')
-
 def ismember(name: str):
 	memb = ''.join(set(map(str, bot.get_all_members())))
 	namef= ''.join([name, "#"])
@@ -101,4 +98,9 @@ async def kill(ctx, name: str):
 	else:
 		await ctx.send('Player not found')
 
-bot.run(TOKEN)
+if os.path.exists('.token'):
+	with open('.token','r') as f:
+		TOKEN = f.readline().replace('\n','')
+	bot.run(TOKEN)
+else:
+	print("Token error: the file `.token` is missing")
