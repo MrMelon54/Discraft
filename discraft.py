@@ -5,17 +5,13 @@ from discord.ext.commands import has_permissions, MissingPermissions
 bot = commands.Bot(command_prefix='/', description='A bot that responds to Minecraft commands.')
 client = discord.Client()
 
-TOKEN = 'Insert Token Here'
+with open('.token','r') as f:
+	TOKEN = f.readline().replace('\n','')
 
 def ismember(name: str):
-	memb = (set(map(str, bot.get_all_members())))
-	namef= name, "#"
-	namefi = ''.join(namef)
-	#print(namefi)
-	#print(memb)
-	membi=''.join(memb)
-	#print(membi)
-	if namefi in membi:
+	memb = ''.join(set(map(str, bot.get_all_members())))
+	namef= ''.join([name, "#"])
+	if namef in memb:
 		return 1
 	else:
 		return 0
@@ -35,7 +31,7 @@ async def on_ready():
 	print(bot.user.id)
 	print('------')
 
-	
+
 @bot.command(pass_context = True)
 @commands.has_any_role("Despotizmus")
 async def kick(ctx, userName: discord.Member):
@@ -44,8 +40,8 @@ async def kick(ctx, userName: discord.Member):
 	await ctx.guild.kick(userName)
 	#else:
 	#await ctx.send(f'No permission!')
-	
-	
+
+
 '''@bot.command(pass_context = True)
 @commands.has_any_role("Member")
 async def kick(ctx, userName: discord.Member):
@@ -64,8 +60,8 @@ async def user_info(ctx, user: discord.Member):
     await ctx.send(f'The role of the user is {user.top_role}')
     await ctx.send(f'The user joined at {user.joined_at}')'''
 
-	
-	
+
+
 @bot.command()
 @has_permissions(manage_roles=True, ban_members=True)
 async def ban (ctx, member:discord.User=None, reason =None):
@@ -78,7 +74,7 @@ async def ban (ctx, member:discord.User=None, reason =None):
     await member.send(message)
     # await ctx.guild.ban(member)
     await ctx.channel.send(f"{member} has been banned!")
-    
+
 @kick.error
 async def kick_error(error, ctx):
     if isinstance(error, MissingPermissions):
@@ -89,7 +85,7 @@ async def kick_error(error, ctx):
 async def ismembere(ctx, name: str):
 	print(ismember(name))
 	await ctx.channel.send(intconverter(ismember(name)))
-	
+
 @bot.command()
 async def kill(ctx, name: str):
 	memb = (set(map(str, bot.get_all_members())))
@@ -105,6 +101,4 @@ async def kill(ctx, name: str):
 	else:
 		await ctx.send('Player not found')
 
-bot.run('TOKEN')
-
-
+bot.run(TOKEN)
