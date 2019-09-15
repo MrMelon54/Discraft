@@ -5,7 +5,7 @@ from discord.ext.commands import has_permissions, MissingPermissions
 bot = commands.Bot(command_prefix='/', description='A bot that responds to Minecraft commands.')
 client = discord.Client()
 
-TOKEN = 'Insert token here'
+TOKEN = 'Insert Token Here'
 
 def ismember(name: str):
 	memb = (set(map(str, bot.get_all_members())))
@@ -19,6 +19,14 @@ def ismember(name: str):
 		return 1
 	else:
 		return 0
+
+
+def intconverter(i):
+    switcher = {
+        0: "no",
+        1: "yes",
+        }
+    return switcher.get(i, "idk maybe")
 
 @bot.event
 async def on_ready():
@@ -80,6 +88,7 @@ async def kick_error(error, ctx):
 @bot.command()
 async def ismembere(ctx, name: str):
 	print(ismember(name))
+	await ctx.channel.send(intconverter(ismember(name)))
 	
 @bot.command()
 async def kill(ctx, name: str):
@@ -96,5 +105,6 @@ async def kill(ctx, name: str):
 	else:
 		await ctx.send('Player not found')
 
-bot.run(TOKEN)
+bot.run('TOKEN')
+
 
