@@ -1,12 +1,10 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands import has_permissions, MissingPermissions
+import os
 
 bot = commands.Bot(command_prefix='/', description='A bot that responds to Minecraft commands.')
 client = discord.Client()
-
-with open('.token','r') as f:
-	TOKEN = f.readline().replace('\n','')
 
 def ismember(name: str):
 	memb = ''.join(set(map(str, bot.get_all_members())))
@@ -101,4 +99,32 @@ async def kill(ctx, name: str):
 	else:
 		await ctx.send('Player not found')
 
-bot.run(TOKEN)
+@bot.command()
+async def tp(ctx,name:str,x:str="",y:str="",z:str=""):
+	if x=="" and y=="" and z=="":
+		if ismember(name):
+			await ctx.send(f'Teleporting you to {name}')
+		else:
+			await ctx.send(f'Player {name} doesn\'t exist')
+	elif y=="" and z=="":
+		if ismember(name):
+			if ismember(x):
+				await ctx.send(f'Teleporting {name} to {x}')
+			else:
+				await ctx.send(f'Player {x} doesn\'t exist')
+		else:
+			await ctx.send(f'Player {name} doesn\'t exist')
+	elif z=="":
+		await ctx.send(f'Teleporting you to {name}, {x}, {y}')
+	else:
+		if ismember(name):
+			await ctx.send(f'Teleporting {name} to {x}, {y}, {z}')
+		else:
+			await ctx.send(f'Player {name} doesn\'t exist')
+
+if os.path.exists('.token'):
+	with open('.token','r') as f:
+		TOKEN = f.readline().replace('\n','')
+	bot.run(TOKEN)
+else:
+	print("Token error: the file `.token` is missing")
