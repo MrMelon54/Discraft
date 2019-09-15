@@ -5,7 +5,7 @@ from discord.ext.commands import has_permissions, MissingPermissions
 bot = commands.Bot(command_prefix='/', description='A bot that responds to Minecraft commands.')
 client = discord.Client()
 
-with open('./token','r') as f:
+with open('.token','r') as f:
 	TOKEN = f.readline().replace('\n','')
 
 def ismember(name: str):
